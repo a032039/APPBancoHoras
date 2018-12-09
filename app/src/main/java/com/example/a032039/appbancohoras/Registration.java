@@ -3,17 +3,24 @@ package com.example.a032039.appbancohoras;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Registration extends Activity {
 
     private EditText userName, userPassword, userEmail, userAge;
     private Button regButton;
     private TextView userLogin;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +29,26 @@ public class Registration extends Activity {
 
         setupUIViews();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                if (validate()){
-                   //database
+                   String user_email = userEmail.getText().toString();
+                   String user_password = userPassword.getText().toString();
+
+                   firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                       @Override
+                       public void onComplete(@NonNull Task<AuthResult> task) {
+                           if (task.isSuccessful()){
+                               Toast.makeText(Registration.this, "Registo com Sucesso", Toast.LENGTH_SHORT).show();
+                               startActivity(new Intent(Registration.this, MainActivity.class));
+                           }else {
+                               Toast.makeText(Registration.this, "Registo falhou!", Toast.LENGTH_SHORT).show();
+                           }
+                       }
+                   });
                }
             }
         });

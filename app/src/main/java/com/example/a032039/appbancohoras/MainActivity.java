@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Name = (EditText)findViewById(R.id.edName);
+        Name = (EditText)findViewById(R.id.etName);
         Password = (EditText)findViewById(R.id.etPassword);
         Info = (TextView)findViewById(R.id.tvInfo);
         Login = (Button)findViewById(R.id.btnLogin);
@@ -72,14 +72,18 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void validate(String userName, String userPassword){
+    private void validate(final String userName, final String userPassword){
         firebaseAuth.signInWithEmailAndPassword(userName, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     //Toast.makeText(MainActivity.this,"Login com Sucesso", Toast.LENGTH_SHORT).show();
                     checkEmailVerification();
+              if (userName.equals("") || userPassword.equals("")){
+                    Toast.makeText(MainActivity.this,"Login Falhou", Toast.LENGTH_SHORT).show();
+                }
                 }else{
+
                     Toast.makeText(MainActivity.this,"Login Falhou", Toast.LENGTH_SHORT).show();
                     counter--;
                     Info.setText(" Numero de tentativas restantes "+ counter);

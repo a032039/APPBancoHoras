@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SecondActivity extends Activity {
     private FirebaseAuth firebaseAuth;
-    private Button logout;
+    private ImageView logout;
 
 
 
@@ -23,7 +23,7 @@ public class SecondActivity extends Activity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        logout = (Button)findViewById(R.id.btnLogout);
+        logout = (ImageView) findViewById(R.id.cvLogout);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
